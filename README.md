@@ -36,7 +36,7 @@ This tool automates the process of downloading all videos from a YouTube playlis
 ```
 $ytDlp = "D:\ytdlp\yt-dlp.exe"
 $ffmpeg = "D:\ffmpeg\ffmpeg-7.1.1-essentials_build\bin\ffmpeg.exe"
-$playlist = "https://www.youtube.com/playlist?list=PLAhDpAStfTpAF4yhYTxNhqD8JESOUNVWI"
+$playlist = "https://www.youtube.com/playlist?xxxxxxxxxxxxxxxxxxxxxxx"
 $downloadDir = "D:\ytdlp"
 
 # Step 1: Download all videos as mp4, numbered
