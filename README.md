@@ -1,6 +1,6 @@
 # Auto YouTube Playlist Downloader and Clipper
 
-This tool automates the process of downloading all videos from a YouTube playlist, saving them as `.mp4`, organizing each into its own folder, and splitting them into 15-second video clips using FFmpeg.
+This tool automates the process of downloading all videos from a YouTube playlist, saving them as `.mp4`, organizing each into its own folder, and splitting them into 15-second video clips using FFmpeg. (Use any drive for installation; I use D:)
 
 ## 🔧 What It Uses
 
@@ -36,20 +36,19 @@ This tool automates the process of downloading all videos from a YouTube playlis
 ```
 $ytDlp = "D:\ytdlp\yt-dlp.exe"
 $ffmpeg = "D:\ffmpeg\ffmpeg-7.1.1-essentials_build\bin\ffmpeg.exe"
-$playlist = "https://www.youtube.com/playlist?xxxxxxxxxxxxxxxxxxxxxxx"
+$playlist = "https://www.youtube.com/playlist?list=xxxxxxxxxxxxxxxxxxxxxxxxx"
 $downloadDir = "D:\ytdlp"
 
-# Step 1: Download all videos as mp4, numbered
-& $ytDlp --format mp4 --output "$downloadDir\video %05d.%%(ext)s" $playlist
+& $ytDlp --yes-playlist --format mp4 --output "$downloadDir\video %(playlist_index)03d - %(title).80s.%(ext)s" $playlist
 
-# Step 2: Clip each video into 15s chunks
 Get-ChildItem -Path $downloadDir -Filter "video *.mp4" | ForEach-Object {
     $file = $_
-    $outputFolder = "$downloadDir\autoclip\$($file.BaseName)"
+    $outputFolder = Join-Path $downloadDir "autoclip\$($file.BaseName)"
     New-Item -ItemType Directory -Force -Path $outputFolder | Out-Null
 
-    & $ffmpeg -i $file.FullName -c:v libx264 -c:a aac -map 0 -f segment -segment_time 15 -reset_timestamps 1 "$outputFolder\clip_%%03d.mp4"
+    & $ffmpeg -i $file.FullName -c:v libx264 -c:a aac -map 0 -f segment -segment_time 15 -reset_timestamps 1 "$outputFolder\clip_%03d.mp4"
 }
+
 ```
 
 ---
